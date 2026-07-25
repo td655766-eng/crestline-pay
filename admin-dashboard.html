@@ -101,7 +101,7 @@
         window.location.href = 'admin-login.html';
       }
 
-      const STORAGE_KEY = 'crestlineCustomers';
+      const STORAGE_KEY = 'customers';
       const createForm = document.getElementById('createCustomerForm');
       const balanceForm = document.getElementById('balanceForm');
       const customerTableBody = document.getElementById('customerTableBody');
@@ -118,35 +118,25 @@
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           try {
-            return JSON.parse(saved);
+            const customers = JSON.parse(saved);
+            // Convert sign-up customers to admin format if needed
+            return customers.map(c => ({
+              id: c.id || Date.now(),
+              name: c.fullName || c.name,
+              email: c.email,
+              password: c.password,
+              balance: c.balance || 0,
+              status: c.status || 'Active',
+              address: c.address,
+              accountType: c.accountType,
+              transactions: c.transactions || []
+            }));
           } catch (error) {
             return [];
           }
         }
 
-        return [
-          {
-            id: 1,
-            name: 'Alex Morgan',
-            email: 'alex@example.com',
-            balance: 200000,
-            status: 'Active',
-            transactions: [
-              { date: '2026-07-25', type: 'Deposit', amount: 8400, status: 'Completed' },
-              { date: '2026-07-24', type: 'Transfer', amount: -1200, status: 'Completed' }
-            ]
-          },
-          {
-            id: 2,
-            name: 'Grace Thompson',
-            email: 'grace@example.com',
-            balance: 48500,
-            status: 'Active',
-            transactions: [
-              { date: '2026-07-24', type: 'Transfer', amount: -1200, status: 'Completed' }
-            ]
-          }
-        ];
+        return [];
       }
 
       function saveCustomers(customers) {
@@ -160,7 +150,7 @@
             <td>${customer.name}</td>
             <td>${customer.email}</td>
             <td>${formatCurrency(customer.balance)}</td>
-            <td>${customer.status}</td>
+            <td><span style="padding: 4px 8px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-size: 0.85rem;">${customer.status}</span></td>
           </tr>
         `).join('');
 
@@ -171,7 +161,8 @@
         const allTransactions = customers.flatMap((customer) =>
           customer.transactions.map((transaction) => ({
             ...transaction,
-            customerName: customer.name
+            customerName: customer.name,
+            customerId: customer.id
           }))
         );
 
@@ -180,8 +171,8 @@
             <td>${transaction.date}</td>
             <td>${transaction.customerName}</td>
             <td>${transaction.type}</td>
-            <td>${transaction.amount >= 0 ? '+' : '-'}${formatCurrency(Math.abs(transaction.amount))}</td>
-            <td>${transaction.status}</td>
+            <td style="${transaction.amount >= 0 ? 'color: #2e7d32;' : 'color: #d32f2f;'}">${transaction.amount >= 0 ? '+' : ''}${formatCurrency(transaction.amount)}</td>
+            <td><span style="padding: 4px 8px; background: #e3f2fd; color: #1565c0; border-radius: 4px; font-size: 0.85rem;">${transaction.status}</span></td>
           </tr>
         `).join('');
       }
@@ -190,17 +181,21 @@
         event.preventDefault();
 
         const customers = getCustomers();
+        const newBalance = Number(document.getElementById('newCustomerBalance').value);
         const newCustomer = {
           id: Date.now(),
-          name: document.getElementById('newCustomerName').value.trim(),
+          fullName: document.getElementById('newCustomerName').value.trim(),
           email: document.getElementById('newCustomerEmail').value.trim(),
-          balance: Number(document.getElementById('newCustomerBalance').value),
+          password: 'defaultPassword123',
+          balance: newBalance,
           status: document.getElementById('newCustomerStatus').value,
+          address: '',
+          accountType: 'Checking account',
           transactions: [
             {
               date: new Date().toISOString().slice(0, 10),
               type: 'Opening Deposit',
-              amount: Number(document.getElementById('newCustomerBalance').value),
+              amount: newBalance,
               status: 'Completed'
             }
           ]
@@ -209,7 +204,7 @@
         customers.push(newCustomer);
         saveCustomers(customers);
         createForm.reset();
-        createMessage.textContent = `${newCustomer.name}'s account has been created.`;
+        createMessage.textContent = `${newCustomer.fullName}'s account has been created.`;
         render();
       });
 
@@ -220,17 +215,20 @@
         const customerId = Number(customerSelect.value);
         const customer = customers.find((entry) => entry.id === customerId);
         const newBalance = Number(document.getElementById('newBalance').value);
+        const oldBalance = customer ? customer.balance : 0;
+        const balanceDifference = newBalance - oldBalance;
 
         if (customer) {
           customer.balance = newBalance;
           customer.transactions.push({
             date: new Date().toISOString().slice(0, 10),
-            type: 'Balance Update',
-            amount: newBalance,
+            type: balanceDifference >= 0 ? 'Deposit' : 'Withdrawal',
+            amount: balanceDifference,
             status: 'Completed'
           });
           saveCustomers(customers);
           balanceMessage.textContent = `${customer.name}'s balance updated to ${formatCurrency(newBalance)}.`;
+          document.getElementById('newBalance').value = '';
           render();
         }
       });
