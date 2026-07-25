@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crestline Pay</title>
+    <meta name="description" content="A professional digital banking experience by Crestline Pay." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">CP</span>
+          <span>Crestline Pay</span>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="transfer.html">Transfer</a>
+          <a href="support.html">Support</a>
+          <a href="open-account.html">Open account</a>
+          <a href="login.html">Login</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Premium digital banking</p>
+            <h1>Grow, protect, and manage your wealth with Crestline Pay.</h1>
+            <p class="lead">
+              Experience a secure banking platform designed for savings, transfers, and everyday financial control.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="open-account.html">Open an account</a>
+              <a class="btn btn-secondary" href="dashboard.html">View dashboard</a>
+            </div>
+            <ul class="trust-list">
+              <li>24/7 account access</li>
+              <li>Instant transfers</li>
+              <li>Bank-grade protection</li>
+            </ul>
+          </div>
+
+          <div class="hero-card">
+            <div class="card-top">
+              <div>
+                <p class="card-label">Available balance</p>
+                <h2 id="balanceValue">$200,000.00</h2>
+              </div>
+              <button id="toggleBalance" class="mini-btn">Hide balance</button>
+            </div>
+            <div class="card-chip">•••• 4821</div>
+            <div class="card-details">
+              <div>
+                <p class="card-label">Client</p>
+                <strong>Alex Morgan</strong>
+              </div>
+              <div>
+                <p class="card-label">Routing</p>
+                <strong>021000021</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="action-grid">
+          <article class="page-card">
+            <h3>Secure sign in</h3>
+            <p>Access your dashboard, manage transfers, and review your financial activity.</p>
+            <a class="btn btn-primary" href="login.html">Go to login</a>
+          </article>
+          <article class="page-card">
+            <h3>Open a new account</h3>
+            <p>Create a premium account in minutes and start enjoying faster banking support.</p>
+            <a class="btn btn-secondary" href="open-account.html">Open account</a>
+          </article>
+          <article class="page-card">
+            <h3>Need help?</h3>
+            <p>Speak with our assistance team for account support, card help, and fraud protection.</p>
+            <a class="btn btn-secondary" href="support.html">Contact support</a>
+          </article>
+        </section>
+
+        <section class="stats-grid" aria-label="Account highlights">
+          <article>
+            <strong>+18.4%</strong>
+            <span>Monthly growth</span>
+          </article>
+          <article>
+            <strong>$24.8k</strong>
+            <span>Saved this quarter</span>
+          </article>
+          <article>
+            <strong>4.9/5</strong>
+            <span>Customer satisfaction</span>
+          </article>
+        </section>
+
+        <section class="feature-section" id="features">
+          <div class="section-heading">
+            <p class="eyebrow">Why Crestline Pay</p>
+            <h3>Everything you need to manage money with confidence.</h3>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h4>Instant transfers</h4>
+              <p>Send money securely in seconds to family, vendors, or international contacts.</p>
+            </article>
+            <article class="feature-card">
+              <h4>Smart budgeting</h4>
+              <p>Track spending patterns and set goals with real-time insights and alerts.</p>
+            </article>
+            <article class="feature-card">
+              <h4>Protected by design</h4>
+              <p>Multi-factor authentication, encryption, and 24/7 fraud monitoring keep your account safe.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

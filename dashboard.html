@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crestline Pay | Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">CP</span>
+          <span>Crestline Pay</span>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="transfer.html">Transfer</a>
+          <a href="support.html">Support</a>
+          <a href="open-account.html">Open account</a>
+          <a href="login.html">Login</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Account overview</p>
+            <h1>Welcome back, Alex. Your finances are on track.</h1>
+            <p class="lead">Review balances, trends, and recent activity from one secure dashboard.</p>
+            <div class="quick-actions">
+              <a class="btn btn-primary" href="transfer.html">Send transfer</a>
+              <a class="btn btn-secondary" href="support.html">Contact support</a>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="card-top">
+              <div>
+                <p class="card-label">Primary balance</p>
+                <h2>$200,000.00</h2>
+              </div>
+              <span class="pill">Active</span>
+            </div>
+            <div class="card-chip">•••• 4821</div>
+            <div class="card-details">
+              <div>
+                <p class="card-label">Client</p>
+                <strong>Alex Morgan</strong>
+              </div>
+              <div>
+                <p class="card-label">Account</p>
+                <strong>Checking</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-shell">
+          <aside class="sidebar">
+            <h3>Quick access</h3>
+            <p class="lead">Everything you need for everyday banking is here.</p>
+            <ul>
+              <li>Secure transfers</li>
+              <li>Card controls</li>
+              <li>Bill payments</li>
+              <li>Fraud alerts</li>
+            </ul>
+          </aside>
+
+          <div class="main-panel">
+            <section class="metric-grid">
+              <article class="metric-card">
+                <p class="card-label">Available balance</p>
+                <strong>$200,000.00</strong>
+              </article>
+              <article class="metric-card">
+                <p class="card-label">Monthly income</p>
+                <strong>$12,800</strong>
+              </article>
+              <article class="metric-card">
+                <p class="card-label">Savings goal</p>
+                <strong>82% reached</strong>
+              </article>
+            </section>
+
+            <section class="chart-card">
+              <div class="card-row">
+                <h3>Spending trend</h3>
+                <span class="pill">+12.3%</span>
+              </div>
+              <div class="chart-bars">
+                <div style="height: 54%"></div>
+                <div style="height: 72%"></div>
+                <div style="height: 63%"></div>
+                <div style="height: 86%"></div>
+                <div style="height: 92%"></div>
+                <div style="height: 78%"></div>
+              </div>
+              <div class="chart-bars">
+                <span>Jan</span>
+                <span>Feb</span>
+                <span>Mar</span>
+                <span>Apr</span>
+                <span>May</span>
+                <span>Jun</span>
+              </div>
+            </section>
+
+            <section class="dashboard-layout">
+              <article class="dashboard-card">
+                <div class="card-row">
+                  <h3>Financial summary</h3>
+                  <span class="pill">Updated</span>
+                </div>
+                <div class="summary-grid">
+                  <article>
+                    <p class="card-label">Income</p>
+                    <strong>$12,800</strong>
+                  </article>
+                  <article>
+                    <p class="card-label">Expenses</p>
+                    <strong>$4,950</strong>
+                  </article>
+                  <article>
+                    <p class="card-label">Savings</p>
+                    <strong>$8,200</strong>
+                  </article>
+                </div>
+              </article>
+
+              <article class="dashboard-card">
+                <div class="card-row">
+                  <h3>Recent activity</h3>
+                  <a class="btn btn-secondary" href="transfer.html">New transfer</a>
+                </div>
+                <div class="service-list">
+                  <div>Payroll deposit <strong>+$8,400</strong></div>
+                  <div>Electric bill <strong>-$132</strong></div>
+                  <div>Transfer to savings <strong>-$2,000</strong></div>
+                </div>
+              </article>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

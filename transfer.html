@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crestline Pay | Transfer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">CP</span>
+          <span>Crestline Pay</span>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="transfer.html">Transfer</a>
+          <a href="support.html">Support</a>
+          <a href="open-account.html">Open account</a>
+          <a href="login.html">Login</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Secure transfers</p>
+            <h1>Send money instantly with full control and protection.</h1>
+            <p class="lead">Move funds between accounts, pay vendors, and send money to contacts in a few secure steps.</p>
+          </div>
+          <div class="form-card">
+            <h3>Transfer funds</h3>
+            <form data-transfer-form>
+              <input type="text" placeholder="Recipient name" required />
+              <input type="text" placeholder="Account number" required />
+              <input type="number" placeholder="Amount" required />
+              <select>
+                <option>Same-day transfer</option>
+                <option>Priority transfer</option>
+                <option>International transfer</option>
+              </select>
+              <textarea rows="3" placeholder="Note"></textarea>
+              <button type="submit">Submit transfer</button>
+            </form>
+            <div data-status></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
