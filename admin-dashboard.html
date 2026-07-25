@@ -39,27 +39,27 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Alex Morgan</td>
-                <td>alex@example.com</td>
-                <td>$200,000.00</td>
-                <td>Active</td>
-              </tr>
-              <tr>
-                <td>Grace Thompson</td>
-                <td>grace@example.com</td>
-                <td>$48,500.00</td>
-                <td>Active</td>
-              </tr>
-              <tr>
-                <td>Daniel Brooks</td>
-                <td>daniel@example.com</td>
-                <td>$12,200.00</td>
-                <td>Pending</td>
-              </tr>
-            </tbody>
+            <tbody id="customerTableBody"></tbody>
           </table>
+        </section>
+
+        <section class="admin-card">
+          <div class="card-row">
+            <h3>Create customer account</h3>
+            <span class="pill">New</span>
+          </div>
+          <form id="createCustomerForm" class="form-card compact">
+            <input type="text" id="newCustomerName" placeholder="Customer name" required />
+            <input type="email" id="newCustomerEmail" placeholder="Customer email" required />
+            <input type="number" id="newCustomerBalance" placeholder="Initial balance" required />
+            <select id="newCustomerStatus">
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="Restricted">Restricted</option>
+            </select>
+            <button type="submit">Create account</button>
+          </form>
+          <p id="createAccountMessage" class="success-text"></p>
         </section>
 
         <section class="admin-card">
@@ -68,7 +68,7 @@
             <span class="pill">Edit</span>
           </div>
           <form id="balanceForm" class="form-card compact">
-            <input type="text" id="customerName" placeholder="Customer name" required />
+            <select id="customerSelect"></select>
             <input type="number" id="newBalance" placeholder="New balance" required />
             <button type="submit">Save balance</button>
           </form>
@@ -90,29 +90,7 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>2026-07-25</td>
-                <td>Alex Morgan</td>
-                <td>Deposit</td>
-                <td>+$8,400</td>
-                <td>Completed</td>
-              </tr>
-              <tr>
-                <td>2026-07-24</td>
-                <td>Grace Thompson</td>
-                <td>Transfer</td>
-                <td>-$1,200</td>
-                <td>Completed</td>
-              </tr>
-              <tr>
-                <td>2026-07-23</td>
-                <td>Daniel Brooks</td>
-                <td>Withdrawal</td>
-                <td>-$500</td>
-                <td>Pending</td>
-              </tr>
-            </tbody>
+            <tbody id="transactionTableBody"></tbody>
           </table>
         </section>
       </main>
@@ -123,15 +101,141 @@
         window.location.href = 'admin-login.html';
       }
 
+      const STORAGE_KEY = 'crestlineCustomers';
+      const createForm = document.getElementById('createCustomerForm');
       const balanceForm = document.getElementById('balanceForm');
-      const message = document.getElementById('balanceMessage');
+      const customerTableBody = document.getElementById('customerTableBody');
+      const transactionTableBody = document.getElementById('transactionTableBody');
+      const customerSelect = document.getElementById('customerSelect');
+      const createMessage = document.getElementById('createAccountMessage');
+      const balanceMessage = document.getElementById('balanceMessage');
+
+      function formatCurrency(amount) {
+        return `$${Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+
+      function getCustomers() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          try {
+            return JSON.parse(saved);
+          } catch (error) {
+            return [];
+          }
+        }
+
+        return [
+          {
+            id: 1,
+            name: 'Alex Morgan',
+            email: 'alex@example.com',
+            balance: 200000,
+            status: 'Active',
+            transactions: [
+              { date: '2026-07-25', type: 'Deposit', amount: 8400, status: 'Completed' },
+              { date: '2026-07-24', type: 'Transfer', amount: -1200, status: 'Completed' }
+            ]
+          },
+          {
+            id: 2,
+            name: 'Grace Thompson',
+            email: 'grace@example.com',
+            balance: 48500,
+            status: 'Active',
+            transactions: [
+              { date: '2026-07-24', type: 'Transfer', amount: -1200, status: 'Completed' }
+            ]
+          }
+        ];
+      }
+
+      function saveCustomers(customers) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(customers));
+      }
+
+      function render() {
+        const customers = getCustomers();
+        customerTableBody.innerHTML = customers.map((customer) => `
+          <tr>
+            <td>${customer.name}</td>
+            <td>${customer.email}</td>
+            <td>${formatCurrency(customer.balance)}</td>
+            <td>${customer.status}</td>
+          </tr>
+        `).join('');
+
+        customerSelect.innerHTML = customers.map((customer) => `
+          <option value="${customer.id}">${customer.name}</option>
+        `).join('');
+
+        const allTransactions = customers.flatMap((customer) =>
+          customer.transactions.map((transaction) => ({
+            ...transaction,
+            customerName: customer.name
+          }))
+        );
+
+        transactionTableBody.innerHTML = allTransactions.slice().reverse().map((transaction) => `
+          <tr>
+            <td>${transaction.date}</td>
+            <td>${transaction.customerName}</td>
+            <td>${transaction.type}</td>
+            <td>${transaction.amount >= 0 ? '+' : '-'}${formatCurrency(Math.abs(transaction.amount))}</td>
+            <td>${transaction.status}</td>
+          </tr>
+        `).join('');
+      }
+
+      createForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const customers = getCustomers();
+        const newCustomer = {
+          id: Date.now(),
+          name: document.getElementById('newCustomerName').value.trim(),
+          email: document.getElementById('newCustomerEmail').value.trim(),
+          balance: Number(document.getElementById('newCustomerBalance').value),
+          status: document.getElementById('newCustomerStatus').value,
+          transactions: [
+            {
+              date: new Date().toISOString().slice(0, 10),
+              type: 'Opening Deposit',
+              amount: Number(document.getElementById('newCustomerBalance').value),
+              status: 'Completed'
+            }
+          ]
+        };
+
+        customers.push(newCustomer);
+        saveCustomers(customers);
+        createForm.reset();
+        createMessage.textContent = `${newCustomer.name}'s account has been created.`;
+        render();
+      });
 
       balanceForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const name = document.getElementById('customerName').value.trim();
-        const amount = document.getElementById('newBalance').value;
-        message.textContent = `${name}'s balance updated to $${Number(amount).toLocaleString()}.00`;
+
+        const customers = getCustomers();
+        const customerId = Number(customerSelect.value);
+        const customer = customers.find((entry) => entry.id === customerId);
+        const newBalance = Number(document.getElementById('newBalance').value);
+
+        if (customer) {
+          customer.balance = newBalance;
+          customer.transactions.push({
+            date: new Date().toISOString().slice(0, 10),
+            type: 'Balance Update',
+            amount: newBalance,
+            status: 'Completed'
+          });
+          saveCustomers(customers);
+          balanceMessage.textContent = `${customer.name}'s balance updated to ${formatCurrency(newBalance)}.`;
+          render();
+        }
       });
+
+      render();
     </script>
   </body>
 </html>
