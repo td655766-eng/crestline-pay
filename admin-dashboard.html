@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crestline Pay | Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="index.html">
+          <span class="brand-mark">CP</span>
+          <span>Crestline Pay</span>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="admin-dashboard.html">Admin panel</a>
+          <a href="admin-login.html" onclick="localStorage.removeItem('crestlineAdminAuth')">Logout</a>
+        </nav>
+      </header>
+
+      <main class="admin-grid">
+        <section class="admin-card">
+          <div class="card-row">
+            <h3>Customer management</h3>
+            <span class="pill">Live</span>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Balance</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Alex Morgan</td>
+                <td>alex@example.com</td>
+                <td>$200,000.00</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>Grace Thompson</td>
+                <td>grace@example.com</td>
+                <td>$48,500.00</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>Daniel Brooks</td>
+                <td>daniel@example.com</td>
+                <td>$12,200.00</td>
+                <td>Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="admin-card">
+          <div class="card-row">
+            <h3>Update account balance</h3>
+            <span class="pill">Edit</span>
+          </div>
+          <form id="balanceForm" class="form-card compact">
+            <input type="text" id="customerName" placeholder="Customer name" required />
+            <input type="number" id="newBalance" placeholder="New balance" required />
+            <button type="submit">Save balance</button>
+          </form>
+          <p id="balanceMessage" class="success-text"></p>
+        </section>
+
+        <section class="admin-card wide">
+          <div class="card-row">
+            <h3>Transaction history</h3>
+            <span class="pill">Recent</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-07-25</td>
+                <td>Alex Morgan</td>
+                <td>Deposit</td>
+                <td>+$8,400</td>
+                <td>Completed</td>
+              </tr>
+              <tr>
+                <td>2026-07-24</td>
+                <td>Grace Thompson</td>
+                <td>Transfer</td>
+                <td>-$1,200</td>
+                <td>Completed</td>
+              </tr>
+              <tr>
+                <td>2026-07-23</td>
+                <td>Daniel Brooks</td>
+                <td>Withdrawal</td>
+                <td>-$500</td>
+                <td>Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      if (!localStorage.getItem('crestlineAdminAuth')) {
+        window.location.href = 'admin-login.html';
+      }
+
+      const balanceForm = document.getElementById('balanceForm');
+      const message = document.getElementById('balanceMessage');
+
+      balanceForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('customerName').value.trim();
+        const amount = document.getElementById('newBalance').value;
+        message.textContent = `${name}'s balance updated to $${Number(amount).toLocaleString()}.00`;
+      });
+    </script>
+  </body>
+</html>
