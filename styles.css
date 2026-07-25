@@ -598,6 +598,18 @@ body::before {
   margin-top: 12px;
 }
 
+.large-form {
+  padding: 18px;
+  gap: 14px;
+}
+
+.large-form input,
+.large-form select,
+.large-form button {
+  padding: 13px 14px;
+  font-size: 1rem;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
